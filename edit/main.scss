@@ -1,0 +1,47 @@
+.kt-portlet__body {
+    h5 {
+      font-size: 14px !important;
+      line-height: 35px;
+    }
+    label {
+      font-weight: 500;
+    }
+  }
+  .kt-portlet__foot {
+    padding: 25px !important;
+  }
+  .custom-control-input:checked ~ .custom-control-label::before {
+    border-color: #279ADB;
+    background-color: #279ADB;
+  }
+  ::ng-deep {
+    .select2-selection--single {
+      border: 1px solid lightgrey !important;
+      border-radius: 4px !important;
+      padding: 5px;
+      height: 38px !important;
+    }
+    .select2-selection__arrow {
+      margin-top: 5px;
+      margin-right: 5px;
+    }
+  
+    .select2-results__option--highlighted {
+      background: #279ADB !important;
+    }
+  }
+  .html-content {
+    background: rgba(0, 0, 0, 0.1);
+    color: black;
+    border: none;
+  }
+  
+  .imagePreview {
+    height: 150px;
+    border-radius: 15px;
+    background-position: center !important;
+    background-repeat: repeat !important;
+    background-size: cover !important;
+    object-fit: cover;
+    margin-top: 5px;
+  }

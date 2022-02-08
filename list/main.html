@@ -1,0 +1,78 @@
+<div class="row">
+    <!-- <form class="w-100"> -->
+      <div class="col-xl-12">
+        <!--begin:: Widgets/Applications/User/Profile3-->
+        <div class="kt-portlet kt-portlet--height-fluid">
+          <div class="kt-portlet__body">
+            <ng-container *ngIf="bannerContents else loading">
+              <ng-container>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th class="p-l-32" scope="col">Analitik Adı</th>
+                      <th scope="col">Href Tipi</th>
+                      <th scope="col">Href</th>
+                      <th scope="col">Sora</th>
+                      <th scope="col">Durum</th>
+                      <th scope="col">Aksiyonlar</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let bannerContent of bannerContents | slice: (filterForm.value.page-1) * filterForm.value.pageSize : (filterForm.value.page-1) * filterForm.value.pageSize + filterForm.value.pageSize; let i = index">
+                      <td scope="row">
+                        <span>
+                          {{ bannerContent.analytics_name }}
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          {{ bannerContent.href_type }}
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          {{ bannerContent.href }}
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          {{ bannerContent.order }}
+                        </span>
+                      </td>
+                      <td>
+                        <span>
+                          {{ bannerContent.enabled == true ? "Aktif":"Pasif" }}
+                        </span>
+                      </td>
+                      <td class="actions">
+                        <a [routerLink]="['/banner-content/edit', bannerContent.id]">
+                          <i ngbTooltip="Düzenle" class="far fa-edit">
+                          </i>
+                        </a>
+                        <a (click)="deleteBannerContent(bannerContent.id, i)">
+                          <i ngbTooltip="Kaldır" class="fas fa-trash"></i>
+                        </a>
+                        <a (click)="toggleActiveBannerContent(bannerContent.id, bannerContent)">
+                            <i *ngIf="bannerContent.enabled == false" ngbTooltip="Aktif Hale Getir" class="fas fa-check"></i>
+                            <i *ngIf="bannerContent.enabled == true" ngbTooltip="Pasif Hale Getir" class="fas fa-times"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </ng-container>
+            </ng-container>
+            <div class="d-flex justify-content-between p-2">
+              <ngb-pagination [collectionSize]="filterForm.value.colSize" [page]="filterForm.value.page" [maxSize]="5" [rotate]="true"
+                (pageChange)="filterForm.controls.page.setValue($event)" [pageSize]="filterForm.value.pageSize">
+              </ngb-pagination>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- </form> -->
+  </div>
+  <ng-template #loading>
+    <div class="m-auto kt-spinner kt-spinner--right kt-spinner--md kt-spinner--blue"></div>
+  </ng-template>
+  
