@@ -1,0 +1,259 @@
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="yearFilter">Yıl</label>
+            <select class="form-control" name="yearFilter" id="yearFilter" [(ngModel)]="filterForm.value.year"
+                (change)="filterExpenseAds()" style="width: 100%; display: inline-block;">
+                <option value="">Yıl Seçiniz</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="monthFilter">Ay</label>
+        <select class="form-control" name="monthFilter" id="monthFilter" [(ngModel)]="filterForm.value.month"
+            (change)="filterExpenseAds()" style="width: 100%; display: inline-block;">
+            <option value="">Ay Seçiniz</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <button class="btn btn-orange float-right" (click)="openExpenseAdSaveModal()">Gider Ekle &nbsp;<i
+                class="fa fa-plus"></i></button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__body">
+                <ng-container *ngIf="expenceDataLoading == false; else loading">
+                    <ng-container *ngIf="expenseAds.length > 0; else noData">
+                        <table class="table table-striped" matSort (matSortChange)="sortData($event)">
+                            <thead>
+                                <tr>
+                                    <th scope="col" mat-sort-header="year">Yıl</th>
+                                    <th scope="col" mat-sort-header="month">Ay</th>
+                                    <th scope="col" mat-sort-header="googleAds">Google Ads</th>
+                                    <th scope="col" mat-sort-header="facebookAds">Facebook Ads</th>
+                                    <th scope="col" mat-sort-header="preMeeting">Toplam Ön Görüşme</th>
+                                    <th scope="col" mat-sort-header="preMeetingCompleted">Tamamlanan Ön Görüşme</th>
+                                    <th scope="col" mat-sort-header="orderQty">Satın Alma Miktarı</th>
+                                    <th scope="col" mat-sort-header="userQty">Kullanıcı Sayısı</th>
+                                    <th scope="col">Aksiyonlar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let expenseAd of sortedExpenseAds; let i = index">
+                                    <td scope="row">
+                                        <span>
+                                            {{ expenseAd.year}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            {{ expenseAd.month }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            {{ expenseAd.googleAds }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            {{ expenseAd.facebookAds }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            {{ expenseAd.preMeeting }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            {{ expenseAd.preMeetingCompleted }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            {{ expenseAd.orderQty }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>
+                                            {{ expenseAd.userQty }}
+                                        </span>
+                                    </td>
+                                    <td class="actions">
+                                        <a (click)="openExpenseAdSaveModal(expenseAd)">
+                                            <i ngbTooltip="Düzenle" class="far fa-edit">
+                                            </i>
+                                        </a>
+                                        <a (click)="deleteExpenseAd(expenseAd.id, i)">
+                                            <i ngbTooltip="Kaldır" class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-flex justify-content-between p-2">
+                            <ngb-pagination [collectionSize]="filterForm.value.colSize" [page]="filterForm.value.page"
+                                [maxSize]="5" [rotate]="true" (pageChange)="filterForm.controls.page.setValue($event)"
+                                [pageSize]="filterForm.value.pageSize">
+                            </ngb-pagination>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="m-auto kt-spinner kt-spinner--right kt-spinner--md kt-spinner--blue"></div>
+</ng-template>
+<ng-template #noData>
+    <p class="noData">Gösterilecek veri bulunamadı.</p>
+</ng-template>
+
+<ng-template #expenseAdSaveModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-expense-save-title">Gider Kaydetme</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="modal-body">
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <h5>Yıl</h5>
+                </div>
+                <div class="col-md-8 contentNoti">
+                    <select class="form-control" formControlName="year" (change)="getFirebaseSummary()"
+                        style="width: 100%; display: inline-block;">
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <h5>Ay</h5>
+                </div>
+                <div class="col-md-8 contentNoti">
+                    <select class="form-control" formControlName="month" (change)="getFirebaseSummary()"
+                        style="width: 100%; display: inline-block;">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <h5>Google Ads</h5>
+                </div>
+                <div class="col-md-8 contentNoti">
+                    <input type="number" class="form-control" placeholder="Google Ads" formControlName="googleAds">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <h5>Facebook Ads</h5>
+                </div>
+                <div class="col-md-8 contentNoti">
+                    <input type="number" class="form-control" placeholder="Facebook Ads" formControlName="facebookAds">
+                </div>
+            </div>
+
+            <ng-container *ngIf="firebaseSummaryReport">
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <h5>Ön Görüşme</h5>
+                    </div>
+                    <div class="col-md-8 contentNoti">
+                        {{ firebaseSummaryReport.preMeeting }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <h5>Tamamlanan Ön Görüşme</h5>
+                    </div>
+                    <div class="col-md-8 contentNoti">
+                        {{ firebaseSummaryReport.preMeetingCompleted }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <h5>Satın Alma Miktarı</h5>
+                    </div>
+                    <div class="col-md-8 contentNoti">
+                        {{ firebaseSummaryReport.orderQty }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-4">
+                        <h5>Kullanıcı Sayısı</h5>
+                    </div>
+                    <div class="col-md-8 contentNoti">
+                        {{ firebaseSummaryReport.userQty }}
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="modal-footer">
+            <button type="submit"
+                [ngClass]="{'kt-spinner kt-spinner--right kt-spinner--md kt-spinner--light': formLoading}"
+                class="btn btn-p-orange float-right" [disabled]="form.invalid || formLoading">Kaydet
+            </button>
+        </div>
+    </form>
+
+</ng-template>
