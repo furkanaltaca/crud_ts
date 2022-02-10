@@ -47,4 +47,23 @@ export class ExpenseReportService {
       .pipe(first())
       .toPromise() as Promise<ExpenseAd>;
   }
+
+  public getJournalReports(pageNumber: number, take: number = 25, startDate: number=null, endDate: number=null) {
+    let url = `${environment.sqlApi}journal/getJournalReport/${pageNumber}/${take}`;
+    
+    if(startDate || endDate) {
+      if(startDate && !endDate) {
+        url += `?startDate=${startDate}`;
+      } else if (endDate && !startDate) {
+        url += `?endDate=${endDate}`;
+      } else if (startDate && endDate) {
+        url += `?startDate=${startDate}&endDate=${endDate}`;
+      }
+    }
+
+    return this.httpClient
+      .get(url)
+      .pipe(first())
+      .toPromise() as Promise<JournalReport[]>;
+  }
 }

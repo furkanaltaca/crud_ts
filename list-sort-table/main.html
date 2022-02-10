@@ -45,6 +45,37 @@
 </div>
 
 <div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <mat-form-field class="ml-2" appearance="fill">
+                <mat-label>Başlangıç Tarihi</mat-label>
+                <input matInput (dateChange)="filterJournalReportData('datePicker')" [(ngModel)]="startDateFilter"
+                    [matDatepicker]="pickerStart">
+                <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+                <mat-datepicker #pickerStart></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="ml-2" appearance="fill">
+                <mat-label>Bitiş Tarihi</mat-label>
+                <input matInput (dateChange)="filterJournalReportData('datePicker')" [(ngModel)]="endDateFilter"
+                    [matDatepicker]="pickerEnd" [min]="filterForm.value.startDate">
+                <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+                <mat-datepicker #pickerEnd></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field  appearance="fill">
+                <mat-label>Abonelik Durumu</mat-label>
+                <mat-select name="selectOptions" [(ngModel)]="dateRangeFilterType" (change)="filterJournalReportData('dropdown')">
+                  <mat-option selected value="custom"> Özel Tarih Aralığı </mat-option>
+                  <mat-option value="lastSevenDays"> Son 7 gün </mat-option>
+                  <mat-option value="lastThirtyDays"> Son 30 gün </mat-option>
+                  <mat-option value="lastNinetyDays"> Son 90 gün </mat-option>
+                  <mat-option value="lastTwelveMonths"> Son 12 ay </mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-xl-12">
         <div class="kt-portlet kt-portlet--height-fluid">
             <div class="kt-portlet__body">
@@ -119,10 +150,18 @@
                             </tbody>
                         </table>
                         <div class="d-flex justify-content-between p-2">
-                            <ngb-pagination [collectionSize]="filterForm.value.colSize" [page]="filterForm.value.page"
-                                [maxSize]="5" [rotate]="true" (pageChange)="filterForm.controls.page.setValue($event)"
-                                [pageSize]="filterForm.value.pageSize">
-                            </ngb-pagination>
+                            <div class="d-flex justify-content-between p-2">
+                                <ngb-pagination 
+                                    [collectionSize]="filterForm.value.colSize" 
+                                    [page]="filterForm.value.page"
+                                    [maxSize]="5" 
+                                    [rotate]="true"
+                                    [ellipses]="false" 
+                                    [boundaryLinks]="true"
+                                    (pageChange)="filterForm.controls.page.setValue($event)"
+                                    [pageSize]="filterForm.value.pageSize">
+                                </ngb-pagination>
+                            </div>
                         </div>
                     </ng-container>
                 </ng-container>
