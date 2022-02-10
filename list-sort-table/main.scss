@@ -181,6 +181,10 @@
   margin-top: 10px;
 }
 
+.noData {
+  text-align: center;
+}
+
 //--------------------------
 
 .kt-portlet__body {
@@ -229,8 +233,4 @@
   background-size: cover !important;
   object-fit: cover;
   margin-top: 5px;
-}
-
-.noData {
-  text-align: center;
 }

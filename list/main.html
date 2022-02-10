@@ -1,4 +1,26 @@
 <div class="row">
+  <div class="col-md-4">
+      <div class="form-group">
+          <mat-form-field>
+              <mat-label>Başlangıç Tarihi</mat-label>
+              <input matInput (focus)="pickerStart.open()" (dateChange)="filterJournalReportData()" [(ngModel)]="filterForm.value.startDate" [matDatepicker]="pickerStart">
+              <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+              <mat-datepicker #pickerStart></mat-datepicker>
+          </mat-form-field>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="form-group">
+          <mat-form-field>
+              <mat-label>Bitiş Tarihi</mat-label>
+              <input matInput (focus)="pickerEnd.open()" (dateChange)="filterJournalReportData()" [(ngModel)]="filterForm.value.endDate" [matDatepicker]="pickerEnd" [min]="filterForm.value.startDate">
+              <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+              <mat-datepicker #pickerEnd></mat-datepicker>
+          </mat-form-field>
+      </div>
+  </div>
+</div>
+<div class="row">
     <!-- <form class="w-100"> -->
       <div class="col-xl-12">
         <!--begin:: Widgets/Applications/User/Profile3-->
