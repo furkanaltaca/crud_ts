@@ -61,10 +61,11 @@
                 <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
                 <mat-datepicker #pickerEnd></mat-datepicker>
             </mat-form-field>
-            <mat-form-field  appearance="fill">
-                <mat-label>Abonelik Durumu</mat-label>
-                <mat-select name="selectOptions" [(ngModel)]="dateRangeFilterType" (change)="filterJournalReportData('dropdown')">
+            <mat-form-field class="ml-2" appearance="fill">
+                <mat-label>Tarih Filtre Seçenekleri</mat-label>
+                <mat-select name="selectOptions" [(ngModel)]="dateRangeFilterType" (selectionChange)="filterJournalReportData('dropdown')">
                   <mat-option selected value="custom"> Özel Tarih Aralığı </mat-option>
+                  <mat-option value="thisMonth"> Bu Ay </mat-option>
                   <mat-option value="lastSevenDays"> Son 7 gün </mat-option>
                   <mat-option value="lastThirtyDays"> Son 30 gün </mat-option>
                   <mat-option value="lastNinetyDays"> Son 90 gün </mat-option>
